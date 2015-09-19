@@ -1,0 +1,10 @@
+{% extends "ssw_downloader/base.html" %}
+{% load staticfiles tethys_gizmos %}
+
+{% block app_content %}
+  <h1>Jobs</h1>
+
+  {% gizmo jobs_table jobs_table_options %}
+  <p><strong>Note:</strong> large datasets may take a long time to process. A general rule of thumb is that it will take one minute for every day's worth of data.</p>
+
+{% endblock %}

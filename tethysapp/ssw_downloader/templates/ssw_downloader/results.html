@@ -1,0 +1,11 @@
+{% extends "ssw_downloader/base.html" %}
+{% load staticfiles tethys_gizmos %}
+
+{% block app_content %}
+  <h1>Your data is ready!</h1>
+  <a id='get_data_btn' href="{% url 'ssw_downloader:download' job_id %}" class="btn btn-success">Get Data</a>
+{% endblock %}
+
+{% block app_actions %}
+  <a id='convert_btn' href="" class="btn btn-default">Convert to ASCII</a>
+{% endblock %}

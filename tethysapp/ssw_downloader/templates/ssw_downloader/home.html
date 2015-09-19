@@ -1,0 +1,41 @@
+{% extends "ssw_downloader/base.html" %}
+{% load staticfiles tethys_gizmos %}
+
+{% block app_content %}
+  <section>
+    <h1>Getting Started</h1>
+    <p>The SSW Downloader is designed to make it easy to download and aggregate data from NASA's <a href="http://disc.gsfc.nasa.gov/SSW/" target="_blank">Simple Subset Wizard (SSW)</a>. The SSW is a powerful web-based tool that can slice large datasets by time, space, and variable. The downside is that what you end up with is dozens (or hundreds!) of links to separate files that you have to download individually. This tool facilitates the process by downloading all of the files for you and stitching them together into one easy file. To get started just follow the steps below.</p>
+  </section>
+
+  <section>
+    <ul>
+      <li>
+        <h2>Step 1</h2>
+        <p>Go to <a href="http://disc.gsfc.nasa.gov/SSW/" target="_blank">http://disc.gsfc.nasa.gov/SSW/</a> and fill out the form to subset the data you want.</p>
+        <img src="{% static 'ssw_downloader/images/ssw_home.png' %}" class="frame" width="90%"/>
+      </li>
+      <li>
+        <h2>Step 2</h2>
+        <p>Select the variables you would like to subset, and make sure to select netCDF as the file type.</p>
+        <img src="{% static 'ssw_downloader/images/ssw_select_data.png' %}" class ="frame" width="90%"/>
+      </li>
+      <li>
+        <h2>Step 3</h2>
+        <p>When you get to the download page copy the link for the "list of URLs" (or the "combined list of URLs").</p>
+        <img src="{% static 'ssw_downloader/images/ssw_results.png' %}" class ="frame" width="90%"/>
+      </li>
+      <li>
+        <h2>Step 4</h2>
+        <p>Paste the link in the field below and click the <strong>Start Download</strong> button.</p>
+          <form id="download_url_form" method="post">
+            {% csrf_token %}
+            {% gizmo text_input text_input_options %}
+          </form>
+      </li>
+    </ul>
+  </section>
+{% endblock %}
+
+{% block app_actions %}
+  <a id='download_btn' href="" class="btn btn-default">Start Download</a>
+{% endblock %}
