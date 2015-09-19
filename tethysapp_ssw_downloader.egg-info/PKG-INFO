@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: tethysapp-ssw-downloader
+Version: 0.0.0
+Summary: Downloads and aggregates netCDF files from NASA's Simple Subset Wizard
+Home-page: UNKNOWN
+Author: Scott Christensen
+Author-email: sdc50@byu.net
+License: BSD2
+Description: UNKNOWN
+Platform: UNKNOWN

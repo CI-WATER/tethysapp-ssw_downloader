@@ -1,0 +1,14 @@
+setup.py
+tethysapp/__init__.py
+tethysapp/ssw_downloader/__init__.py
+tethysapp/ssw_downloader/app.py
+tethysapp/ssw_downloader/controllers.py
+tethysapp/ssw_downloader/handoff.py
+tethysapp/ssw_downloader/init_stores.py
+tethysapp/ssw_downloader/model.py
+tethysapp_ssw_downloader.egg-info/PKG-INFO
+tethysapp_ssw_downloader.egg-info/SOURCES.txt
+tethysapp_ssw_downloader.egg-info/dependency_links.txt
+tethysapp_ssw_downloader.egg-info/namespace_packages.txt
+tethysapp_ssw_downloader.egg-info/not-zip-safe
+tethysapp_ssw_downloader.egg-info/top_level.txt
