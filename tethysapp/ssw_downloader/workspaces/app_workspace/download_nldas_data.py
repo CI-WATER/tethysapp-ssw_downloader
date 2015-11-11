@@ -72,7 +72,7 @@ def add_time_step(time_str, time_var):
     ts = calendar.timegm( time.strptime(time_str, '%m/%d/%Y (%H:%M)'))
     try:
         step = time_var[:].tolist().index(ts)
-    except ValueError, e:  
+    except (ValueError, IndexError),  e:
         step = len(time_var)
         time_var[step] = ts
     return step
@@ -170,9 +170,9 @@ def get_lat_lon_variables(variables):
         var = variables[var_name]
         units = get_variable_units(var)
         if units in LON_UNITS:
-            lat_var =  var
+            lon_var =  var
         elif units in LAT_UNITS:
-            lon_var = var
+            lat_var = var
 
     return lat_var, lon_var
 

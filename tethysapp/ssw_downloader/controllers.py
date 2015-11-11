@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
@@ -7,6 +8,7 @@ from django.core.servers.basehttp import FileWrapper
 from tethys_gizmos.gizmo_options import TextInput, JobsTable
 
 from app import SswDownloader as app
+
 import os
 import time
 import urllib
@@ -101,21 +103,62 @@ def results(request, job_id):
     """
     Controller for the results page.
     """
+    job, file_name, file_path = _get_job(job_id)
 
-    context = {'job_id': job_id}
+
+    convert_url = None
+    if _can_convert():
+        convert_url = reverse('ssw_downloader:convert', kwargs={'job_id': job_id})
+        # convert_url = '/handoff/netcdf-to-gssha/convert-netcdf?path_to_netcdf_file=%s' % file_path
+
+    context = {'job_id': job.id,
+               'convert_url': convert_url
+               }
 
     return render(request, 'ssw_downloader/results.html', context)
 
 @login_required
 def download(request, job_id):
-    jm = app.get_job_manager()
-    job = jm.get_job(job_id)
-
-    file_name = '%s.nc' % job.condorpy_job.job_name
-    file_path = os.path.join(job.initial_dir, file_name)
+    job, file_name, file_path = _get_job(job_id)
 
     wrapper = FileWrapper(file(file_path))
     response = HttpResponse(wrapper, content_type='application/force-download')
     response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(file_name)
     response['Content-Length'] = os.path.getsize(file_path)
     return response
+
+def convert(request, job_id):
+    job, file_name, file_path = _get_job(job_id)
+
+    hm = app.get_handoff_manager()
+    app_name = 'netcdf_to_gssha'
+    handler_name = 'old-convert-netcdf'
+    # return hm.handoff(request, handler_name, app_name, path_to_netcdf_file=file_path)
+
+    handler = hm.get_handler(handler_name, app_name)
+    if handler:
+        # try:
+        return redirect(handler(request, path_to_netcdf_file=file_path))
+        # except Exception, e:
+        #     print e
+
+    return redirect(reverse('ssw_downloader:results', kwargs={'job_id': job_id}))
+
+
+def _get_job(job_id):
+    jm = app.get_job_manager()
+    job = jm.get_job(job_id)
+
+    file_name = '%s.nc' % job.condorpy_job.job_name
+    file_path = os.path.join(job.initial_dir, file_name)
+
+    return job, file_name, file_path
+
+def _can_convert():
+    hm = app.get_handoff_manager()
+    app_name = 'netcdf_to_gssha'
+    handler_name = 'convert-netcdf'
+    capabilities = hm.get_capabilities(app_name)
+    for handler in capabilities:
+        if handler.name == handler_name:
+            return True

@@ -7,5 +7,7 @@
 {% endblock %}
 
 {% block app_actions %}
-  <a id='convert_btn' href="" class="btn btn-default">Convert to ASCII</a>
+  {% if convert_url %}
+    <a id='convert_btn' href="{{ convert_url }}" class="btn btn-default">Convert to ASCII</a>
+  {% endif %}
 {% endblock %}
