@@ -32,9 +32,9 @@ class SswDownloader(TethysAppBase):
                     UrlMap(name='download',
                            url='ssw-downloader/{job_id}/download',
                            controller='ssw_downloader.controllers.download'),
-                    UrlMap(name='convert',
-                           url='ssw-downloader/{job_id}/convert',
-                           controller='ssw_downloader.controllers.convert')
+                    # UrlMap(name='convert',
+                    #        url='ssw-downloader/{job_id}/convert',
+                    #        controller='ssw_downloader.controllers.convert')
         )
 
         return url_maps

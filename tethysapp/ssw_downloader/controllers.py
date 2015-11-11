@@ -106,10 +106,10 @@ def results(request, job_id):
     job, file_name, file_path = _get_job(job_id)
 
 
-    convert_url = None
-    if _can_convert():
-        convert_url = reverse('ssw_downloader:convert', kwargs={'job_id': job_id})
-        convert_url = '/handoff/netcdf-to-gssha/convert-netcdf?path_to_netcdf_file=%s' % file_path
+    convert_url = '/handoff/netcdf-to-gssha/old-convert-netcdf?path_to_netcdf_file=%s' % file_path
+    # if _can_convert():
+    #     convert_url = reverse('ssw_downloader:convert', kwargs={'job_id': job_id})
+
 
     context = {'job_id': job.id,
                'convert_url': convert_url
@@ -127,22 +127,22 @@ def download(request, job_id):
     response['Content-Length'] = os.path.getsize(file_path)
     return response
 
-def convert(request, job_id):
-    job, file_name, file_path = _get_job(job_id)
-
-    hm = app.get_handoff_manager()
-    app_name = 'netcdf_to_gssha'
-    handler_name = 'old-convert-netcdf'
-    # return hm.handoff(request, handler_name, app_name, path_to_netcdf_file=file_path)
-
-    handler = hm.get_handler(handler_name, app_name)
-    if handler:
-        # try:
-        return redirect(handler(request, path_to_netcdf_file=file_path))
-        # except Exception, e:
-        #     print e
-
-    return redirect(reverse('ssw_downloader:results', kwargs={'job_id': job_id}))
+# def convert(request, job_id):
+#     job, file_name, file_path = _get_job(job_id)
+#
+#     hm = app.get_handoff_manager()
+#     app_name = 'netcdf_to_gssha'
+#     handler_name = 'old-convert-netcdf'
+#     # return hm.handoff(request, handler_name, app_name, path_to_netcdf_file=file_path)
+#
+#     handler = hm.get_handler(handler_name, app_name)
+#     if handler:
+#         # try:
+#         return redirect(handler(request, path_to_netcdf_file=file_path))
+#         # except Exception, e:
+#         #     print e
+#
+#     return redirect(reverse('ssw_downloader:results', kwargs={'job_id': job_id}))
 
 
 def _get_job(job_id):
@@ -154,11 +154,11 @@ def _get_job(job_id):
 
     return job, file_name, file_path
 
-def _can_convert():
-    hm = app.get_handoff_manager()
-    app_name = 'netcdf_to_gssha'
-    handler_name = 'convert-netcdf'
-    capabilities = hm.get_capabilities(app_name)
-    for handler in capabilities:
-        if handler.name == handler_name:
-            return True
+# def _can_convert():
+#     hm = app.get_handoff_manager()
+#     app_name = 'netcdf_to_gssha'
+#     handler_name = 'convert-netcdf'
+#     capabilities = hm.get_capabilities(app_name)
+#     for handler in capabilities:
+#         if handler.name == handler_name:
+#             return True
