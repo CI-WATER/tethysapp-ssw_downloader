@@ -109,7 +109,7 @@ def results(request, job_id):
     convert_url = None
     if _can_convert():
         convert_url = reverse('ssw_downloader:convert', kwargs={'job_id': job_id})
-        # convert_url = '/handoff/netcdf-to-gssha/convert-netcdf?path_to_netcdf_file=%s' % file_path
+        convert_url = '/handoff/netcdf-to-gssha/convert-netcdf?path_to_netcdf_file=%s' % file_path
 
     context = {'job_id': job.id,
                'convert_url': convert_url
